@@ -1,50 +1,99 @@
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import matplotlib.pyplot as plt
+
+st.set_page_config(
+    page_title="🀆 Raridade dos cards",
+    page_icon="🀆",
+    layout="wide",
+)
+
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv("src/yugi_dash/app/data/yugioh.csv")
-    return df
+    return pd.read_csv("src/yugi_dash/app/data/yugioh.csv")
+
 
 df = load_data()
 
-st.set_page_config(
-    page_title="🀆 Card Rarity",
-    page_icon="🀆",
+st.markdown("# 🀆 Distribuição de Raridade dos Cards")
+st.write(
+    "Selecione o tipo de card e clique em uma barra "
+    "para visualizar os cards daquela raridade."
 )
 
-st.markdown("# Card Rarity Analysis")
-st.write("This page provides an analysis of card rarity in the Yu-Gi-Oh! dataset.")
 
 type_options = sorted(df["type"].dropna().unique().tolist())
 
-selected_type = st.menu_button(
-    "Filter by card type",
+if not type_options:
+    st.warning("Nenhum tipo de card encontrado.")
+    st.stop()
+
+selected_type = st.selectbox(
+    "Tipo do Card",
     options=type_options,
 )
 
-filtered_df = df[df["type"] == selected_type]
+filtered_df = df[df["type"] == selected_type].copy()
 
 rarity_df = (
-    filtered_df.groupby("rarity")
+    filtered_df.dropna(subset=["rarity"])
+    .groupby("rarity")
     .size()
     .reset_index(name="count")
-    .sort_values(by="count", ascending=False)
+    .sort_values("count", ascending=False)
 )
 
-chart_title = f"Card Rarity Distribution - {selected_type}"
+if rarity_df.empty:
+    st.warning("Nenhuma raridade encontrada para este tipo.")
+    st.stop()
 
-if selected_type is None:
-    st.warning("Please select a card type to view the rarity distribution.")
+col_chart, col_selector = st.columns([3, 1])
 
-fig = px.bar(
-    rarity_df,
-    x="rarity",
-    y="count",
-    title=chart_title,
-    labels={"rarity": "Rarity", "count": "Count"},
+with col_chart:
+    fig = px.bar(
+        rarity_df,
+        x="rarity",
+        y="count",
+        title=f"Distribuição de Raridade - {selected_type}",
+        labels={
+            "rarity": "Raridade",
+            "count": "Quantidade de cards",
+        },
+        color_discrete_sequence=["#7C4DFF"],
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+with col_selector:
+    st.subheader("Filtro de raridade")
+
+    selected_rarity = st.selectbox(
+        "Selecione a raridade",
+        options=rarity_df["rarity"].tolist(),
+    )
+
+    rarity_count = rarity_df.loc[
+        rarity_df["rarity"] == selected_rarity, "count"
+    ].iloc[0]
+
+    st.metric("Quantidade de cards", int(rarity_count))
+
+st.markdown("---")
+st.subheader(f"Cards — {selected_rarity}")
+
+cards_df = filtered_df[
+    filtered_df["rarity"] == selected_rarity].copy()
+
+columns = [
+    col for col in cards_df.columns
+]
+
+cards_df = cards_df[columns]
+
+st.dataframe(
+    cards_df,
+    use_container_width=True,
+    hide_index=True,
 )
-
-st.plotly_chart(fig, use_container_width=True)
