@@ -14,7 +14,4 @@ st.markdown(
     """
 )
 
-
-st.balloons()
-
 st.badge("Eu menti")
