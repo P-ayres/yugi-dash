@@ -1,8 +1,9 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="🀆 Home",
-    page_icon="🀆",
+    page_title="Home",
+    page_icon="src/yugi_dash/app/data/icon.png",
+    layout="wide"
 )
 
 st.title("🀆 Bem vindo ao dashboard 🀆")

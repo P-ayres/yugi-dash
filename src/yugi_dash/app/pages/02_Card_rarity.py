@@ -4,8 +4,7 @@ import pandas as pd
 import plotly.express as px
 
 st.set_page_config(
-    page_title="🀆 Raridade dos cards",
-    page_icon="🀆",
+    page_title="Raridade dos cards",
     layout="wide",
 )
 
@@ -44,10 +43,6 @@ rarity_df = (
     .reset_index(name="count")
     .sort_values("count", ascending=False)
 )
-
-if rarity_df.empty:
-    st.warning("Nenhuma raridade encontrada para este tipo.")
-    st.stop()
 
 col_chart, col_selector = st.columns([3, 1])
 
