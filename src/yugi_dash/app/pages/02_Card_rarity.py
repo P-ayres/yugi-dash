@@ -5,6 +5,7 @@ import plotly.express as px
 
 st.set_page_config(
     page_title="Raridade dos cards",
+    page_icon="src/yugi_dash/app/data/icon.png",
     layout="wide",
 )
 
