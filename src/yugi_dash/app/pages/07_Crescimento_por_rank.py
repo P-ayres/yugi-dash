@@ -14,6 +14,10 @@ def load_data():
 
 df = load_data()
 
+st.markdown("### 🀆 Crescimento de atributos dos monstros por rank 🀆 ")
+st.markdown("```Gráfico que evideencia o crescimento médio de ataque e defesa dos monstros por rank.```")
+st.markdown("```Clique na legenda ara destacar ou omitir uma das linhas do gráfico.```")
+
 monster_df = df[df["type"].str.contains("MONSTER", na=False)].copy()
 
 monster_df["rank"] = (
