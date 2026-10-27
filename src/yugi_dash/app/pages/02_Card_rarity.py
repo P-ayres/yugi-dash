@@ -17,10 +17,13 @@ def load_data():
 
 df = load_data()
 
-st.markdown("# 🀆 Distribuição de Raridade dos Cards")
+st.markdown("## 🀆 Distribuição de Raridade dos Cards 🀆")
 st.write(
-    "Selecione o tipo de card e clique em uma barra "
-    "para visualizar os cards daquela raridade."
+    "Selecione o tipo de card para visualizar os cards daquela raridade."
+)
+st.markdown(
+    "```O gráfico de barras mostra a quantidade de cards por raridade para o tipo selecionado, " \
+    "selecionar uma raridade no seletor exibirá a quantidade de cards daquela raridade e uma tabela com os cards correspondentes.```"
 )
 
 

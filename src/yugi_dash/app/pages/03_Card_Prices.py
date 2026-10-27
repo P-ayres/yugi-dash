@@ -16,7 +16,7 @@ def load_data():
 
 df = load_data()
 
-st.markdown("# Preço médio dos cards por raridade")
+st.markdown("## 🀆 Preço médio dos cards por raridade 🀆 ")
 st.write(
     "Use o filtro de preço para visualizar a distribuição de preços médios por raridade. "
     "O seletor de faixa de preço permite ajustar os limites mínimo e máximo para a análise."
