@@ -7,12 +7,14 @@ st.set_page_config(
 )
 
 st.title("🀆 Bem vindo ao dashboard 🀆")
-st.sidebar.success("Selecione uma página acima.")
+st.sidebar.success("Selecione uma página para visualizar os dados relacionados as cartas.")
 st.markdown(
     """
     Este dashboard foi desenvolvido contendo dados para análise de dados relacionados a Yu-Gi-Oh! e suas cartas. 
-    Abaixo você encontrará algumas informações sobre o dashboard e como utilizá-lo.
+    Este dash conteḿ um visualização sobre dados comuns em cartas de Yugi-oh, como raridade, preço, atributos e volatilidade.
     """
 )
 
-st.badge("Eu menti")
+st.badge("Monstros, Magias e Armadilhas")
+
+st.button("``` Que slifer não te encontre ```", on_click=lambda: st.write("``` Mas o Faraó sim ```"))
