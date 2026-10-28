@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from yugi_dash.app.utils import dataloader
 
 st.set_page_config(
     page_title="Volatilidade dos cards",
@@ -8,12 +9,7 @@ st.set_page_config(
     layout="wide",
 )
 
-@st.cache_data
-def load_data():
-    return pd.read_csv("src/yugi_dash/app/data/yugioh.csv")
-
-
-df = load_data()
+df = dataloader.load_data()
 
 st.markdown("## 🀆 Volatilidade dos cards 🀆")
 st.markdown("Distribuição dos cards por nível de volatilidade, com filtros por tipo e raridade.")
@@ -40,15 +36,15 @@ df["price"] = (
 
 df["price"] = pd.to_numeric(df["price"], errors="coerce")
 
-filtered_df = df.copy()
-filtered_df = filtered_df.dropna(subset=["volatility"])
+volatiltity_df = df.copy()
+volatiltity_df = volatiltity_df.dropna(subset=["volatility"])
 
-if filtered_df.empty:
+if volatiltity_df.empty:
     st.warning("Nenhum card encontrado com os filtros selecionados.")
     st.stop()
 
 
-sunburst_df = filtered_df.dropna(subset=["volatility", "rarity", "price"]).copy()
+sunburst_df = volatiltity_df.dropna(subset=["volatility", "rarity", "price"]).copy()
 sunburst_df = sunburst_df[sunburst_df["price"] >= 0]
 
 if sunburst_df.empty:
@@ -69,7 +65,8 @@ else:
         values="total_price",
         color="volatility",
         color_discrete_sequence=["#7C4DFF", "#5E35B1", "#4527A0", "#B39DDB"],
-        title="Sunburst: Volatilidade → Raridade (soma dos preços)",
+        title="Volatilidade e a relação com a raridade dos cards",
+        subtitle="Clique em um setor da area central para evidenciar e explorar as informações de raridade para a volatilidade selecionada.",
         hover_data={"cards": True, "avg_price": ":.2f", "total_price": ":.2f"},
     )
 

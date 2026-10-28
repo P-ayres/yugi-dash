@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from yugi_dash.app.utils import dataloader
 
 st.set_page_config(
     page_title="Crescimento por Rank",
@@ -8,15 +9,11 @@ st.set_page_config(
     layout="wide",
 )
 
-@st.cache_data
-def load_data():
-    return pd.read_csv("src/yugi_dash/app/data/yugioh.csv")
-
-df = load_data()
+df = dataloader.load_data()
 
 st.markdown("### 🀆 Crescimento de atributos dos monstros por rank 🀆 ")
-st.markdown("```Gráfico que evideencia o crescimento médio de ataque e defesa dos monstros por rank.```")
-st.markdown("```Clique na legenda ara destacar ou omitir uma das linhas do gráfico.```")
+st.markdown("```Gráfico que evidencia o crescimento médio de ataque e defesa dos monstros por rank.```")
+st.markdown("```Clique na legenda para destacar ou omitir uma das linhas do gráfico.```")
 
 monster_df = df[df["type"].str.contains("MONSTER", na=False)].copy()
 

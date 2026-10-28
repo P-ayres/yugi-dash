@@ -2,6 +2,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+from yugi_dash.app.utils import dataloader
 
 st.set_page_config(
     page_title="Preço dos cards",
@@ -9,12 +10,7 @@ st.set_page_config(
     layout="wide",
 )
 
-@st.cache_data
-def load_data():
-    return pd.read_csv("src/yugi_dash/app/data/yugioh.csv")
-
-
-df = load_data()
+df = dataloader.load_data()
 
 st.markdown("## 🀆 Preço médio dos cards por raridade 🀆 ")
 st.write(
