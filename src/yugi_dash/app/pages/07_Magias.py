@@ -4,17 +4,17 @@ import plotly.express as px
 from yugi_dash.app.utils import dataloader
 
 st.set_page_config(
-    page_title="Magias e Armadilhas",
+    page_title="Magias",
     page_icon="src/yugi_dash/app/data/icon.png",
     layout="wide",
 )
 
 df = dataloader.load_data()
 
-st.markdown("## 🀆 Magias e Armadilhas 🀆")
+st.markdown("## 🀆 Magias 🀆")
 st.markdown("Relação de magias e armadilhas com os subtipos das cartas.")
 st.badge("```O subtipo define a forma de utilização da carta durante um duelo.```")
-st.markdown("```Visualização exploratória de Magias e Armadilhas: clique nos setores para explorar os subtipos, raridades e sets, chegando até os cards.```")
+st.markdown("```Visualização exploratória de Magias: clique nos setores para explorar os subtipos, raridades e sets, chegando até os cards.```")
 
 spell_df = df.copy()
 
@@ -25,7 +25,7 @@ spell_df["sub_type"] = (
     .fillna("undefined")
 )
 
-spell_trap = spell_df[spell_df["type"].isin(["SPELL", "TRAP"])].copy()
+spell_trap = spell_df[spell_df["type"].isin(["SPELL"])].copy()
 
 rarity_col = "rarity"
 set_col = "set_name" if "set_name" in spell_trap.columns else "set"
@@ -55,19 +55,13 @@ plot_df = (
     .rename(columns={"size": "count"})
 )
 
-for card_type, title in [("SPELL", "SPELL"), ("TRAP", "TRAP")]:
-    type_df = plot_df[plot_df["type"] == card_type]
+fig = px.treemap(
+    plot_df,
+    path=["type", "sub_type", rarity_col, set_col, card_col],
+    values="count",
+    color_continuous_scale="type",
+    hover_data={"count": True},
+    title="Visão exploratória das Magias",
+)
 
-    if type_df.empty:
-        st.info(f"No data for {card_type}.")
-        continue
-
-    fig = px.treemap(
-        type_df,
-        path=["type", "sub_type", rarity_col, set_col, card_col],
-        values="count",
-        color_continuous_scale="type",
-        hover_data={"count": True},
-    )
-
-    st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, use_container_width=True)
