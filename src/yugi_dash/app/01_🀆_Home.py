@@ -3,15 +3,16 @@ import streamlit as st
 st.set_page_config(
     page_title="Home",
     page_icon="src/yugi_dash/app/data/icon.png",
-    layout="wide"
+    layout="wide",
 )
 
 st.title("🀆 Bem vindo ao dashboard 🀆")
 st.sidebar.success("Selecione uma página para visualizar os dados relacionados as cartas.")
-st.markdown(
+st.write(
     """
-    Este dashboard foi desenvolvido contendo dados para análise de dados relacionados a Yu-Gi-Oh! e suas cartas. 
-    Este dash conteḿ um visualização sobre dados comuns em cartas de Yugi-oh, como raridade, preço, atributos e volatilidade.
+    Este dashboard foi desenvolvido contendo dados para análise de dados relacionados a Yu-Gi-Oh! e suas cartas. \n
+    Este dash conteḿ um visualização sobre dados comuns em cartas de Yugi-oh, como raridade, preço, atributos e volatilidade. \n
+    Clique na seta no canto superior esquerdo para navegar entre as páginas do dashboard e explorar os dados.
     """
 )
 
