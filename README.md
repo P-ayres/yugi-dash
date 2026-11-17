@@ -1,4 +1,4 @@
-##Dashboard utilizando dataset de ccards de yugioh contendo mais de 40 mil registros
+## Dashboard utilizando dataset de cards de Yugi-Oh contendo mais de 40 mil registros
 
 ```
 Para executar utilize:
